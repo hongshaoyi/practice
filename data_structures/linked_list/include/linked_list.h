@@ -1,5 +1,5 @@
-#ifndef __LINKED_H__
-#define __LINKED_H__
+#ifndef __LINKED_LIST_H__
+#define __LINKED_LIST_H__
 
 struct link_node
 {
