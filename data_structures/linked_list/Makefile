@@ -4,7 +4,6 @@ main: main.o linked_list.o
 main.o: main.cpp
 	g++ -c main.cpp
 
-linked_list.o: include/linked_list.h src/linked_list.cpp
-	g++ -c include/linked_list.h src/linked_list.cpp
-
+linked_list.o: src/linked_list.cpp
+	g++ -c src/linked_list.cpp
 
