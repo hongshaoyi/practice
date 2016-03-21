@@ -14,23 +14,32 @@ linked_list_unit_test::~linked_list_unit_test()
 	delete_test_list();
 }
 
-bool linked_list_unit_test::start_test()
+void linked_list_unit_test::start_test()
 {
+	cout << "start the constructor test!" << endl;
+
 	if (!new_test_list())
-	{
 		cout << "test Constructor failed!" << endl;
+	else
+		cout << "pass the constructor test!" << endl;
 
-		return false;
-	}
-
+	cout << "start the insert test!" << endl;
+	
 	if (!test_insert())
-	{
 		cout << "test insert failed!" << endl;
+	else
+		cout << "pass the insert test!" << endl;
 
-		return false;
-	}
+	cout << "start the remove test!" << endl;
+	
+	if (!test_remove())
+		cout << "test remove failed!" << endl;
+	else
+		cout << "pass the remove test!" << endl;
 
 	delete_test_list();
+
+	cout << "all test done!" << endl;
 }
 
 bool linked_list_unit_test::test_insert()
@@ -59,6 +68,8 @@ bool linked_list_unit_test::test_insert()
 
 	bool normal_insert_result = test_linked_list_->is_equal_array_list(test_list, size);
 
+	test_linked_list_->clear_all();
+
 	return normal_insert_result;
 }
 
@@ -67,17 +78,18 @@ bool linked_list_unit_test::test_remove()
 	if(!is_init_test_obj())
 		return false;
 
-	int test_list[] = {9, 8, 7, 6, 5, 4, 3, 2, 1};
-	int size = sizeof(test_list) / sizeof(int);
+	int start_list[] = {9, 8, 7, 6, 5, 4, 3, 2, 1};
+	int start_size = sizeof(start_list) / sizeof(int);
+	
 	bool insert_result = true;
 	
-	for (int index = 0; index < size; index++)
+	for (int index = 0; index < start_size; index++)
 	{
-		if (!test_linked_list_->insert(test_list[index]))
+		if (!test_linked_list_->insert(start_list[index]))
 		{
 			insert_result = false;
 			
-			cout << "insert failed!, insert index: " << index << "insert data: " << test_list[index] << endl;
+			cout << "insert failed!, insert index: " << index << "insert data: " << start_list[index] << endl;
 			
 			break;
 		}
@@ -86,7 +98,34 @@ bool linked_list_unit_test::test_remove()
 	if (!insert_result)
 		return false;
 
-	return true;
+	int remove_list[] = {2, 8, 5, 10, 1, 9};
+	int remove_size = sizeof(remove_list) / sizeof(int);
+
+	bool remove_result = true;
+
+	for (int index = 0; index < remove_size; index++)
+	{
+		if (!test_linked_list_->remove(remove_list[index]))
+		{
+			remove_result = false;
+
+			cout << "remove failed!, remove index: " << index << "remove data: " << remove_list[index] << endl;
+
+			break;
+		}
+	}
+
+	if (!remove_result)
+		return false;
+
+	int final_list[] = {7, 6, 4, 3};
+	int final_size = sizeof(final_list) / sizeof(int);
+
+	bool normal_remove_result = test_linked_list_->is_equal_array_list(final_list, final_size);
+
+	test_linked_list_->clear_all();
+	
+	return normal_remove_result;
 }
 
 inline bool linked_list_unit_test::new_test_list()

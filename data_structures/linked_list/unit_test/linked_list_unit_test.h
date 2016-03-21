@@ -9,7 +9,7 @@ public:
 	linked_list_unit_test();
 	~linked_list_unit_test();
 
-	bool start_test();
+	void start_test();
 
 private:
 	linked_list* test_linked_list_;
