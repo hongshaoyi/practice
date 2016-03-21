@@ -7,43 +7,44 @@ using namespace std;
 
 linked_list::linked_list()
 {
-	head_node = init_link_node(0);
+	head_node_ = init_link_node(0);
 };
 
 /*linked_list::linked_list(const linked_list &other_list)
 {
-	head_node = init_link_node(0);
+	head_node_ = init_link_node(0);
 	
-	link_node* next_node = other_list.head_node.next_;
+	link_node* next_node = other_list.head_node_.next_;
 	
 	if (next_node != NULL)
 	{
-		head_node->next_ = next_node;
-		next_node->prev_ = head_node;
+		head_node_->next_ = next_node;
+		next_node->prev_ = head_node_;
 
-		reset_link_node(other_list.head_node);
+		reset_link_node(other_list.head_node_);
 	}
 }*/
 
 linked_list::~linked_list()
 {
-	link_node* delete_node = head_node;
 	link_node* next_node = NULL;
+	link_node* delete_node = head_node_;
 
-	do
+	while (delete_node != NULL)
 	{
 		next_node = delete_node->next_;
 
 		delete delete_node;
-	}
-	while (next_node != NULL);
 
-	head_node = NULL;
+		delete_node = next_node;
+	}
+
+	head_node_ = NULL;
 }
 
 bool linked_list::insert(const int _data)
 {
-	link_node* last_node = head_node;
+	link_node* last_node = head_node_;
 
 	while (last_node->next_ != NULL)
 		last_node = last_node->next_;
@@ -58,7 +59,7 @@ bool linked_list::insert(const int _data)
 
 bool linked_list::remove(const int _data)
 {
-	link_node* delete_node = head_node;
+	link_node* delete_node = head_node_;
 	bool result = false;
 
 	while (delete_node->next_ != NULL)
@@ -77,6 +78,42 @@ bool linked_list::remove(const int _data)
 	}
 
 	return result;
+}
+
+bool linked_list::is_equal_array_list(const int* _array_list, const int _size)
+{
+	//because the array list can not have none elements, but the linked list can have none datas
+	//so here is a deal, when the array list is null and the size is 0, it means that it has none elements, not the illegal input
+	if (_array_list == NULL)
+	{
+		if (_size == 0)
+			return head_node_->next_ == NULL ? true : false;
+		else
+		{
+			cout << "the array is illegal!" << endl;
+
+			return false;
+		}
+	}
+
+	bool is_equal = true;
+	link_node* check_node = head_node_->next_;
+
+	for (int index = 0; index < _size; index++)
+	{
+		if (check_node == NULL || check_node->data_ != _array_list[index])
+		{
+			is_equal = false;
+			
+			cout << "the data is not equal!" << endl;
+			
+			break;
+		}
+
+		check_node = check_node->next_;
+	}
+
+	return is_equal;
 }
 
 inline link_node* linked_list::init_link_node(const int _data)
